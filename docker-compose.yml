@@ -1,0 +1,38 @@
+services:
+  db:
+    image: mysql:8.3
+    volumes:
+      - ./database.sql:/docker-entrypoint-initdb.d/database.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: test_database
+      MYSQL_USER: test_user
+      MYSQL_PASSWORD: test_password
+    ports:
+      - "8092:3306"
+
+  web:
+    image: php:8.3-apache
+    volumes:
+      - ./src:/var/www/html
+    ports:
+      - "8090:80"
+    depends_on:
+      - db
+    command: >
+      bash -c "apt-get update &&
+               apt-get install -y libpq-dev &&
+               docker-php-ext-install pdo pdo_mysql &&
+               apache2-foreground"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_USER: test_user
+      PMA_PASSWORD: test_password
+      UPLOAD_LIMIT: 50M
+    ports:
+      - "8091:80"
+    depends_on:
+      - db
