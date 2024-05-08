@@ -12,18 +12,20 @@ services:
       - "8092:3306"
 
   web:
-    image: php:8.3-apache
+    build: .
     volumes:
       - ./:/var/www/html
+    environment:
+      DB_HOST: db
+      DB_USER: test_user
+      DB_PASSWORD: test_password
+      DB_DATABASE: test_database
+      DB_PORT: 3306
+      APACHE_DOCUMENT_ROOT: /var/www/html/public
     ports:
       - "8090:80"
     depends_on:
       - db
-    command: >
-      bash -c "apt-get update &&
-               apt-get install -y libpq-dev &&
-               docker-php-ext-install pdo pdo_mysql &&
-               apache2-foreground"
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
