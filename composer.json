@@ -6,7 +6,9 @@
             "email": "cruzcastro07@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "ext-pdo": "*"
+    },
     "autoload": {
         "psr-4": {
             "App\\": "src/",

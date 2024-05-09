@@ -18,7 +18,12 @@ final class RouteDispatcher
             throw RouteNotFoundException::fromUri($request->getUri());
         }
 
-        $controller = $routes[$request->getUri()];
+        [$controller, $method] = $routes[$request->getUri()];
+
+        if (!$request->isMethod($method)) {
+            throw RouteNotFoundException::fromUri($request->getUri());
+        }
+
         $controller = $container->get($controller);
 
         $response = ($controller)($request);
