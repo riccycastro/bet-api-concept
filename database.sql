@@ -17,6 +17,7 @@ CREATE TABLE bets (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id INT UNSIGNED NOT NULL,
     bet_amount DOUBLE NOT NULL,
+    bet_number INT NOT NULL,
     generated_number INT NOT NULL,
     payout DOUBLE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

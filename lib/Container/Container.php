@@ -16,7 +16,9 @@ final class Container implements ContainerInterface
             $binding = $this->bindings[$id];
 
             if ($binding instanceof \Closure) {
-                return $binding();
+                $this->bindings[$id] = $binding();
+
+                return $this->bindings[$id];
             }
 
             return $binding;

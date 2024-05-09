@@ -30,4 +30,9 @@ final class BetNumber
     {
         return $this->value;
     }
+
+    public function isEqualTo(BetNumber $number): bool
+    {
+        return $this->value === $number->getValue();
+    }
 }

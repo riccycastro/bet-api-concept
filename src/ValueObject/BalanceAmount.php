@@ -74,4 +74,8 @@ final class BalanceAmount
     {
         return BalanceAmount::fromInt($this->value + $payoutPerWin->value);
     }
+
+    public function addPayout(Payout $payout): self {
+        return BalanceAmount::fromInt($this->value + $payout->getUnformattedValue());
+    }
 }

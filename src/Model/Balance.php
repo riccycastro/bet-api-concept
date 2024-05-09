@@ -6,6 +6,7 @@ namespace App\Model;
 
 use App\ValueObject\BalanceAmount;
 use App\ValueObject\BalanceId;
+use App\ValueObject\Payout;
 use App\ValueObject\UserId;
 
 final class Balance
@@ -27,12 +28,12 @@ final class Balance
         return $this->balance;
     }
 
-    public function addBalanceAmount(BalanceAmount $amount): self
+    public function addPayout(Payout $payout): self
     {
         return new self(
             $this->id,
             $this->userId,
-            $this->balance->add($amount),
+            $this->balance->addPayout($payout),
         );
     }
 
