@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lib\Dispatcher\Command;
 
 use Lib\Container\ContainerInterface;
+use Lib\Database\Database;
 use Lib\Dispatcher\Command\Exception\CommandWithoutHandlerException;
 
 final class CommandDispatcher implements DispatcherInterface
@@ -24,7 +25,26 @@ final class CommandDispatcher implements DispatcherInterface
         }
 
         $handler = $this->container->get($this->commands[get_class($command)]);
+        /** @var Database $database */
+        $database = $this->container->get(Database::class);
 
-        return ($handler)($command);
+        if ($handler instanceof TransactionalCommandInterface) {
+            $database->connection()->beginTransaction();
+        }
+
+        try {
+            $result = ($handler)($command);
+
+            if ($handler instanceof TransactionalCommandInterface) {
+                $database->connection()->commit();
+            }
+
+            return $result;
+        } catch (\Throwable $e) {
+            if ($handler instanceof TransactionalCommandInterface) {
+                $database->connection()->rollBack();
+            }
+            throw $e;
+        }
     }
 }

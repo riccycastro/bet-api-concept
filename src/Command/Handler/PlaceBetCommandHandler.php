@@ -19,9 +19,10 @@ use App\ValueObject\Payout;
 use App\ValueObject\ReturnToPlayer;
 use App\ValueObject\UserId;
 use Lib\Dispatcher\Command\DispatcherInterface;
+use Lib\Dispatcher\Command\TransactionalCommandInterface;
 use Lib\Security\SecurityContext;
 
-final class PlaceBetCommandHandler
+final class PlaceBetCommandHandler implements TransactionalCommandInterface
 {
     public function __construct(
         private readonly DispatcherInterface $commandDispatcher,
