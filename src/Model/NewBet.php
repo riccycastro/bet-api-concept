@@ -44,4 +44,9 @@ final class NewBet
     {
         return $this->payout;
     }
+
+    public function isWin(): bool
+    {
+        return $this->betNumber->isEqualTo($this->generatedNumber);
+    }
 }

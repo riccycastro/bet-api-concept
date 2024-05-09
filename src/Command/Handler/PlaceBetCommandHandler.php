@@ -9,6 +9,7 @@ use App\Dto\RollDiceResult;
 use App\Exception\BalanceNotFoundException;
 use App\Exception\NotEnoughAmountToBetException;
 use App\FindsBalanceInterface;
+use App\Model\NewBet;
 use App\StoresBalanceInterface;
 use App\Task\RegisterBetTask;
 use App\ValueObject\BalanceAmount;
@@ -35,7 +36,7 @@ final class PlaceBetCommandHandler
     /**
      * @throws BalanceNotFoundException
      */
-    public function __invoke(PlaceBetCommand $command): void
+    public function __invoke(PlaceBetCommand $command): NewBet
     {
         $userId = UserId::fromInt($this->context->currentUser->getId());
 
@@ -62,7 +63,7 @@ final class PlaceBetCommandHandler
 
         $this->balanceStore->updateBalance($toStoreBalance);
 
-        $this->commandDispatcher->dispatch(
+        return $this->commandDispatcher->dispatch(
             new RegisterBetTask(
                 $command->amount,
                 $command->number,

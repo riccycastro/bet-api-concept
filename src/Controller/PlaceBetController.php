@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Command\PlaceBetCommand;
+use App\Dto\PlaceBetOutputDto;
 use App\Exception\BadRequestException;
 use Lib\Controller\AbstractController;
 use Lib\Dispatcher\Command\DispatcherInterface;
 use Lib\Http\Request;
+use Lib\Http\Response;
 
 final class PlaceBetController extends AbstractController
 {
@@ -17,7 +19,7 @@ final class PlaceBetController extends AbstractController
     ) {
     }
 
-    public function __invoke(Request $request): void
+    public function __invoke(Request $request): Response
     {
         try {
             $placeBetCommand = PlaceBetCommand::fromArray($request->getBody());
@@ -27,8 +29,8 @@ final class PlaceBetController extends AbstractController
             throw new BadRequestException('Bad request');
         }
 
-        $this->commandDispatcher->dispatch($placeBetCommand);
+        $newBet = $this->commandDispatcher->dispatch($placeBetCommand);
 
-        echo "PlaceBetController: {$request->getUri()}";
+        return new Response(PlaceBetOutputDto::fromNewBet($newBet));
     }
 }

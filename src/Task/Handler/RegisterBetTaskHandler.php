@@ -18,18 +18,22 @@ final class RegisterBetTaskHandler
     ) {
     }
 
-    public function __invoke(RegisterBetTask $task): void
+    public function __invoke(RegisterBetTask $task): NewBet
     {
         $useId = UserId::fromInt($this->securityContext->currentUser->getId());
 
-        $this->storesBet->storeBet(
-            new NewBet(
-                userId: $useId,
-                betAmount: $task->betAmount,
-                betNumber: $task->betNumber,
-                generatedNumber: $task->generatedNumber,
-                payout: $task->payout,
-            )
+        $newBet = new NewBet(
+            userId: $useId,
+            betAmount: $task->betAmount,
+            betNumber: $task->betNumber,
+            generatedNumber: $task->generatedNumber,
+            payout: $task->payout,
         );
+
+        $this->storesBet->storeBet(
+            $newBet
+        );
+
+        return $newBet;
     }
 }

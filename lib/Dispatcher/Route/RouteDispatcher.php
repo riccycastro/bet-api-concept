@@ -7,6 +7,7 @@ namespace Lib\Dispatcher\Route;
 use Lib\Container\ContainerInterface;
 use Lib\Dispatcher\Route\Exception\RouteNotFoundException;
 use Lib\Http\Request;
+use Lib\Http\Response;
 
 final class RouteDispatcher
 {
@@ -27,5 +28,14 @@ final class RouteDispatcher
         $controller = $container->get($controller);
 
         $response = ($controller)($request);
+
+        if (!$response instanceof Response) {
+            throw new \LogicException(
+                sprintf('%s must return an instance of %s', $controller, Response::class)
+            );
+        }
+
+        http_response_code($response->statusCode);
+        echo json_encode($response->body);
     }
 }
