@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lib\Dispatcher\AuthGuard\Exception;
+namespace Lib\Dispatcher\Authentication\Exception;
 
 use Lib\Exception\HttpException;
 

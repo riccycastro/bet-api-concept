@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Lib\Dispatcher\AuthGuard;
+namespace Lib\Dispatcher\Authentication;
 
 use Lib\Container\ContainerInterface;
-use Lib\Dispatcher\AuthGuard\Exception\UnauthorizedException;
-use Lib\Dispatcher\AuthGuard\Exception\UserNotFoundException;
+use Lib\Dispatcher\Authentication\Exception\UnauthorizedException;
+use Lib\Dispatcher\Authentication\Exception\UserNotFoundException;
 use Lib\Http\Request;
 use Lib\Security\SecurityContext;
 
-final class AuthGuardDispatcher
+final class AuthenticationDispatcher
 {
     public static function dispatch(ContainerInterface $container, Request $request): void
     {

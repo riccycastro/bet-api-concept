@@ -6,7 +6,7 @@ namespace App\Model;
 
 use App\ValueObject\UserId;
 use App\ValueObject\Username;
-use Lib\Dispatcher\AuthGuard\UserInterface;
+use Lib\Dispatcher\Authentication\UserInterface;
 
 final class User implements UserInterface
 {

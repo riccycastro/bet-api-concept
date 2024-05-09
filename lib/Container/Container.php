@@ -12,12 +12,17 @@ final class Container implements ContainerInterface
 
     public function get(string $id): object
     {
-
         if ($this->has($id)) {
-            return $this->bindings[$id];
+            $binding = $this->bindings[$id];
+
+            if ($binding instanceof \Closure) {
+                return $binding();
+            }
+
+            return $binding;
         }
 
-        throw new ClassNotBoundException($id);
+        throw ClassNotBoundException::fromClassName($id);
     }
 
     public function has(string $id): bool
@@ -28,7 +33,7 @@ final class Container implements ContainerInterface
     // All bounds are singletons
     public function bind(string $id, object $instance): self
     {
-        $this->bindings[$id] =  $instance;
+        $this->bindings[$id] = $instance;
 
         return $this;
     }

@@ -1,8 +1,8 @@
 <?php
 
-namespace Lib\Dispatcher\AuthGuard;
+namespace Lib\Dispatcher\Authentication;
 
-use Lib\Dispatcher\AuthGuard\Exception\UserNotFoundException;
+use Lib\Dispatcher\Authentication\Exception\UserNotFoundException;
 
 interface UserProviderInterface
 {

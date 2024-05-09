@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Lib\Http;
 
+use Lib\Http\Exception\BadRequestException;
+use Lib\Http\Exception\UnsupportedMediaTypeException;
+
 final class Request
 {
     public function __construct(
         private readonly HttpMethod $method,
         private readonly string $uri,
         private readonly array $headers = [],
-        private readonly string $body = '',
+        private readonly array $body = [],
         private readonly array $query = []
     ) {
     }
@@ -35,6 +38,11 @@ final class Request
         return $this->getHeader('Authorization');
     }
 
+    public function getBody(): array
+    {
+        return $this->body;
+    }
+
     public static function create(): self
     {
         $res = explode('?', $_SERVER['REQUEST_URI'] ?? '/', 2);
@@ -43,6 +51,12 @@ final class Request
         $query = $res[1] ?? '';
 
         $query = Request::resolveQueryString($query);
+
+        $headers = getallheaders();
+
+        if ('application/json' !== $headers['Content-Type']) {
+            throw UnsupportedMediaTypeException::fromContentType($headers['Content-Type']);
+        }
 
         return new self(
             HttpMethod::from($_SERVER['REQUEST_METHOD'] ?? HttpMethod::GET),
@@ -61,8 +75,14 @@ final class Request
         return $query;
     }
 
-    private static function resolveBody(): string
+    private static function resolveBody(): array
     {
-        return file_get_contents('php://input');
+        $body = json_decode(file_get_contents('php://input'), true);
+
+        if ($body === null && json_last_error() !== JSON_ERROR_NONE) {
+            throw new BadRequestException("Malformed request body");
+        }
+
+        return $body;
     }
 }

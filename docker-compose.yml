@@ -22,6 +22,8 @@ services:
       DB_DATABASE: test_database
       DB_PORT: 3306
       APACHE_DOCUMENT_ROOT: /var/www/html/public
+      DICE_MAX_NUMBER: 13
+      RETURN_TO_PLAYER: 95 #percentage
     ports:
       - "8090:80"
     depends_on:

@@ -1,13 +1,21 @@
 <?php
 
+use App\Provider\BalanceRepositoryProvider;
+use App\Provider\FindsBalanceProvider;
+use App\Provider\PlaceBetCommandHandlerProvider;
+use App\Provider\PlaceBetControllerProvider;
+use App\Provider\StoresBalanceProvider;
+use App\Provider\UserProviderProvider;
+use Lib\Dispatcher\Container\Provider\CommandDispatcherProvider;
 use Lib\Dispatcher\Container\Provider\DatabaseProvider;
-use Lib\Dispatcher\Container\Provider\PlaceBetControllerProvider;
-use Lib\Dispatcher\Container\Provider\UserProviderProvider;
-use Lib\Dispatcher\Container\Provider\UserRepositoryProvider;
 
 return [
+    CommandDispatcherProvider::class,
     DatabaseProvider::class,
+    BalanceRepositoryProvider::class,
     PlaceBetControllerProvider::class,
     UserProviderProvider::class,
-    UserRepositoryProvider::class
+    FindsBalanceProvider::class,
+    StoresBalanceProvider::class,
+    PlaceBetCommandHandlerProvider::class,
 ];

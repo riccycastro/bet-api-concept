@@ -8,9 +8,9 @@ use App\Model\User;
 use App\ValueObject\UserId;
 use App\ValueObject\Username;
 use Lib\Database\Database;
-use Lib\Dispatcher\AuthGuard\Exception\UserNotFoundException;
-use Lib\Dispatcher\AuthGuard\UserInterface;
-use Lib\Dispatcher\AuthGuard\UserProviderInterface;
+use Lib\Dispatcher\Authentication\Exception\UserNotFoundException;
+use Lib\Dispatcher\Authentication\UserInterface;
+use Lib\Dispatcher\Authentication\UserProviderInterface;
 
 final class UserRepository implements UserProviderInterface
 {
