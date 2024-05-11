@@ -45,7 +45,7 @@ final class PlaceBetCommandHandler implements TransactionalCommandInterface
             $userId
         );
 
-        if (!$balance->getBalance()->isGreaterThan(BalanceAmount::fromBetAmount($command->amount))) {
+        if (!$balance->getBalance()->isGreaterThanEqual(BalanceAmount::fromBetAmount($command->amount))) {
             throw NotEnoughAmountToBetException::fromBetting($balance->getBalance(), $command->amount);
         }
 

@@ -55,9 +55,9 @@ final class BalanceAmount
         return self::fromInt($this->value - $amount->value);
     }
 
-    public function isGreaterThan(BalanceAmount $amount): bool
+    public function isGreaterThanEqual(BalanceAmount $amount): bool
     {
-        return $this->value > $amount->value;
+        return $this->value >= $amount->value;
     }
 
     public function multiplyReturnToPlayer(ReturnToPlayer $returnToPlayer): self
